@@ -1,5 +1,4 @@
 fastapi
-uvicorn
 python-dotenv
 langchain
 langchain-google-genai
@@ -8,3 +7,4 @@ langchain_community
 pandas
 markdown
 uvicorn
+Jinja2
