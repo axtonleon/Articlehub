@@ -6,3 +6,5 @@ langchain-google-genai
 faiss-cpu
 langchain_community
 pandas
+markdown
+uvicorn
