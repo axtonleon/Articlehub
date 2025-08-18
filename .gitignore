@@ -151,7 +151,5 @@ nannews_articles.txt
 progress.txt
 scraped_articles_nannews.csv
 
-*.pkl
-*.faiss
 
 .vercel
