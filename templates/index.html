@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col h-screen relative">
+    <div class="w-full max-w-screen-lg mx-auto flex-grow flex flex-col pb-20"> <!-- Added pb-20 for padding at the bottom -->
+        <div class="p-4 border-b border-gray-700">
+            <h1 class="text-3xl font-bold text-center text-blue-400">Gemini Chatbot</h1>
+        </div>
+        <div id="chatbox" class="p-4 flex-grow overflow-y-auto">
+            <!-- Chat messages will be appended here -->
+        </div>
+        <div id="loading" class="p-4 text-center text-gray-400" style="display: none;">
+            <p>Gemini is thinking...</p>
+        </div>
+    </div>
+    <div class="fixed bottom-0 w-full bg-gray-900 p-4 border-t border-gray-700"> <!-- Fixed position for the input box -->
+        <div class="flex max-w-screen-lg mx-auto">
+            <input id="messageText" type="text" placeholder="Type your message..." class="flex-grow px-4 py-2 bg-gray-700 border border-gray-600 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white">
+            <button id="sendButton" class="bg-blue-600 text-white px-6 py-2 rounded-r-md hover:bg-blue-700 transition duration-300">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatbox = document.getElementById('chatbox');
+        const messageText = document.getElementById('messageText');
+        const sendButton = document.getElementById('sendButton');
+        const loading = document.getElementById('loading');
+
+        async function sendMessage() {
+            const message = messageText.value;
+            if (message.trim() !== '') {
+                loading.style.display = 'block';
+                const userMessageContainer = document.createElement('div');
+                userMessageContainer.className = 'mb-4 flex justify-end';
+
+                const userMessage = document.createElement('div');
+                userMessage.className = 'bg-blue-600 p-3 rounded-lg max-w-xs sm:max-w-md';
+                userMessage.innerHTML = `<p class="text-white font-bold mb-1">You</p><p>${message}</p>`;
+                
+                userMessageContainer.appendChild(userMessage);
+                chatbox.appendChild(userMessageContainer);
+                messageText.value = '';
+                chatbox.scrollTop = chatbox.scrollHeight;
+
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+                loading.style.display = 'none';
+
+                const botMessageContainer = document.createElement('div');
+                botMessageContainer.className = 'mb-4 flex';
+                
+                const botMessage = document.createElement('div');
+                botMessage.className = 'bg-gray-700 p-3 rounded-lg max-w-xs sm:max-w-md';
+
+                if (response.ok) {
+                    botMessage.innerHTML = `<p class="text-blue-300 font-bold mb-1">Gemini</p>`;
+                    botMessage.insertAdjacentHTML('beforeend', data.answer);
+                } else {
+                    botMessage.innerHTML = `<p class="text-red-400 font-bold mb-1">Error</p><p>${data.error}</p>`;
+                }
+                
+                botMessageContainer.appendChild(botMessage);
+                chatbox.appendChild(botMessageContainer);
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+
+        messageText.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

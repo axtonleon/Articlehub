@@ -1,0 +1,12 @@
+
+
+# Ignore data files
+./nannews_articles.txt
+progress.txt
+./scraped_articles_nannews.csv
+
+# Ignore Python cache 
+__pycache__/
+
+# Ignore other scripts
+script.py
