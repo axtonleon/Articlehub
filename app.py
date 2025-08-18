@@ -18,25 +18,25 @@ load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
 
 # Convert CSV to a single text file
-def csv_to_txt(csv_path, txt_path):
-    df = pd.read_csv(csv_path)
-    with open(txt_path, 'w', encoding='utf-8') as f:
-        for index, row in df.iterrows():
-            # Assuming the article content is in a column named 'Content'
-            # and title in a column named 'Title'
-            f.write(f"Title: {row['Title']}\n")
-            f.write(f"Author: {row['Author']}\n")
-            f.write(f"Category: {row['Category']}\n")
-            f.write(f"Date: {row['Date']}\n")
-            f.write(f"Content: {row['Content']}\n\n")
+# def csv_to_txt(csv_path, txt_path):
+#     df = pd.read_csv(csv_path)
+#     with open(txt_path, 'w', encoding='utf-8') as f:
+#         for index, row in df.iterrows():
+#             # Assuming the article content is in a column named 'Content'
+#             # and title in a column named 'Title'
+#             f.write(f"Title: {row['Title']}\n")
+#             f.write(f"Author: {row['Author']}\n")
+#             f.write(f"Category: {row['Category']}\n")
+#             f.write(f"Date: {row['Date']}\n")
+#             f.write(f"Content: {row['Content']}\n\n")
 
 # Paths
-csv_path = "scraped_articles_nannews.csv"
+# csv_path = "scraped_articles_nannews.csv"
 txt_path = "nannews_articles.txt"
 faiss_index_path = "faiss_index"
 
-# Convert CSV to TXT
-csv_to_txt(csv_path, txt_path)
+# # Convert CSV to TXT
+# csv_to_txt(csv_path, txt_path)
 
 # Initialize embeddings
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=api_key)
