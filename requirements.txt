@@ -2,9 +2,11 @@ fastapi
 python-dotenv
 langchain
 langchain-google-genai
-faiss-cpu
-langchain_community
+psycopg
+langchain-postgres
+SQLAlchemy
 pandas
 markdown
 uvicorn
 Jinja2
+pgvector
