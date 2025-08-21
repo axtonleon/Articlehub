@@ -3,6 +3,7 @@ python-dotenv
 langchain
 langchain-google-genai
 psycopg
+langchain_community
 langchain-postgres
 SQLAlchemy
 pandas
